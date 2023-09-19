@@ -1,3 +1,4 @@
+import { PopulateParams } from './../config/querySchema';
 import { ContentType, FilteredEntry } from '../interfaces/interfaces';
 import buildResult from '../utils/buildResult';
 import buildTransliteratedResult from '../utils/buildTransliteratedResult';
@@ -7,7 +8,8 @@ export default async function getResult(
   contentType: ContentType,
   query: string,
   filters?: Record<string, unknown>,
-  locale?: string
+  locale?: string,
+  populate?: PopulateParams
 ) {
   const buildFilteredEntry = async () => {
     await validateQuery(contentType, locale);
@@ -15,6 +17,7 @@ export default async function getResult(
     const items = await strapi.entityService.findMany(contentType.model.uid, {
       ...(filters && { filters }),
       ...(locale && { locale }),
+      ...(populate && { populate }),
     });
 
     return {

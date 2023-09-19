@@ -19,6 +19,9 @@ export const querySchema = object({
 
 export type PaginationBaseQuery = InferType<typeof paginationSchema>;
 
+export interface PopulateParams {}
+
 export type SearchQuery = InferType<typeof querySchema> & {
   pagination: Record<string, PaginationBaseQuery>;
+  populate: PopulateParams;
 };

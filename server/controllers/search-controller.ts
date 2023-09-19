@@ -10,7 +10,13 @@ const { NotFoundError } = errors;
 export default () => ({
   async search(ctx: Context) {
     const { contentTypes } = settingsService().get();
-    const { query, pagination, filters: filtersQuery, locale } = ctx.query;
+    const {
+      query,
+      pagination,
+      filters: filtersQuery,
+      locale,
+      populate,
+    } = ctx.query;
     const { auth } = ctx.state;
 
     const queriedContentTypes =
@@ -44,7 +50,8 @@ export default () => ({
             contentType,
             query,
             filtersQuery?.[contentType.model.info.pluralName],
-            filtersQuery?.[contentType.model.info.pluralName]?.locale || locale
+            filtersQuery?.[contentType.model.info.pluralName]?.locale || locale,
+            populate
           )
       )
     );
